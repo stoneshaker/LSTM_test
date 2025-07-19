@@ -6,9 +6,13 @@ from keras import models
 count = 0
 X_train = []
 y_train = []
-data = pd.read_csv('.\\data\\dataVelTruth.csv', sep=',', header=0)
+dataVelTruth   = pd.read_csv('.\\data\\dataVelTruth.csv', sep=',', header=0)
+dataVelDrift   = pd.read_csv('.\\data\\dataVelDrift.csv', sep=',', header=0)
+dataAccelTruth = pd.read_csv('.\\data\\dataAccelTruth.csv', sep=',', header=0)
+dataAccelDrift = pd.read_csv('.\\data\\dataAccelDrift.csv', sep=',', header=0)
+data = dataVelDrift
 print(data)
-
+activation_type = 'linear'
 #X = np.zeros(1,(len(data)))
 #y = np.zeros(1,(len(data)))
 
@@ -18,6 +22,7 @@ y = np.array(data['Position'].values.tolist())
 print(X)
 print(X[0:5])
 print(type(X))
+print(y[-1])
 X_predict = np.array([1.001,1.005,1.1])
 
 print(np.shape(X))
@@ -33,9 +38,10 @@ print(np.transpose(X_train))
 # define model
 model = models.Sequential()
 model.add(layers.Input(shape=(np.shape(XX_train[1]))))
-model.add(layers.Dense(50, activation='linear'))
-model.add(layers.Dense(10, activation='linear'))
-model.add(layers.Dense(3, activation='linear'))
+model.add(layers.Dense(1000, activation=activation_type))
+#model.add(layers.Dense(100, activation=activation_type))
+model.add(layers.Dense(10, activation=activation_type))
+model.add(layers.Dense(3, activation=activation_type))
 model.add(layers.Dense(1))
 model.compile(optimizer='adam', loss='mse')
 # fit model
