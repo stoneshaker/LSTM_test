@@ -42,7 +42,7 @@ def singleStepSampler(df, window):
     return np.array(xRes), np.array(yRes)
 
     # Dataset splitting
-SPLIT = 0.85
+SPLIT = 0.75
 (xVal, yVal) = singleStepSampler(df_scaled, 20)
 X_train = xVal[:int(SPLIT * len(xVal))]
 y_train = yVal[:int(SPLIT * len(yVal))]
@@ -53,8 +53,9 @@ print("y_train shape =",y_train.shape)
 
 multivariate_lstm = keras.Sequential()
 multivariate_lstm.add(keras.layers.Input(shape=(X_train.shape[1], X_train.shape[2])))
-multivariate_lstm.add(keras.layers.LSTM(200)) #, input_shape=(X_train.shape[1], X_train.shape[2])))
+multivariate_lstm.add(keras.layers.LSTM(100)) #, input_shape=(X_train.shape[1], X_train.shape[2])))
 multivariate_lstm.add(keras.layers.Dropout(0.2))
+multivariate_lstm.add(keras.layers.Dense(10, activation='linear'))
 multivariate_lstm.add(keras.layers.Dense(2, activation='linear'))
 multivariate_lstm.compile(loss = 'MeanSquaredError', metrics=['MAE'], optimizer='Adam')
 multivariate_lstm.summary()
