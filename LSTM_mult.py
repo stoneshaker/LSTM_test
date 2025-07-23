@@ -60,7 +60,7 @@ multivariate_lstm.add(keras.layers.Dense(2, activation='linear'))
 multivariate_lstm.compile(loss = 'MeanSquaredError', metrics=['MAE'], optimizer='Adam')
 multivariate_lstm.summary()
 
-history = multivariate_lstm.fit(X_train, y_train, epochs=200)
+history = multivariate_lstm.fit(X_train, y_train, epochs=200, verbose=0)
 
 # Reload the data with the date index
 dataFrame = pd.read_csv('.\\data\\final_data_adj.csv')  # Assuming the CSV file contains a 'Date' column
