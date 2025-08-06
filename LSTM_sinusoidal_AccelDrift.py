@@ -8,10 +8,7 @@ from keras import metrics
 count = 0
 X_train = []
 y_train = []
-#dataVelTruth   = pd.read_csv('.\\data\\dataVelTruth.csv', sep=',', header=0)
-#dataVelDrift   = pd.read_csv('.\\data\\dataVelDrift.csv', sep=',', header=0)
-#dataAccelTruth = pd.read_csv('.\\data\\dataAccelTruth.csv', sep=',', header=0)
-dataAccelDrift = pd.read_csv('.\\data\\dataAccelDrift.csv', sep=',', header=0)
+dataAccelDrift = pd.read_csv('.\\data\\Sinusoidal_TestData_AccelDrift_VelDrift.csv', sep=',', header=0)
 data = dataAccelDrift
 print(data)
 activation_type = 'linear'
@@ -28,13 +25,13 @@ print(type(X))
 print(y[-1])
 X_predict = np.array([1.001,1.005,1.1])
 X_predict = np.ndarray(shape=(3,3))#,buffer=[1.001,1],[1.005,1],[1.1,1])
-X_predict[0,:] = [1.001,2.001101,6.5070105]
-X_predict[1,:] = [1.005,2.01505,6.515050625]
-X_predict[2,:] = [1.1,2.111,6.71105]
+X_predict[0,:] = [1.001,3.101126,8.398864806]
+X_predict[1,:] = [1.005,3.107637,8.411282332]
+X_predict[2,:] = [1.1,4.106141,8.753936799]
 print(X_predict)
 print(X_predict.shape[1])
 
-saved_model_name = 'best_model_batch32_sigmoid_time.keras'
+saved_model_name = 'best_sinusoidal_model_batch32_sigmoid_time.keras'
 callbacks = [
     callbacks.ModelCheckpoint(
         saved_model_name, save_best_only=True, monitor="val_loss"
@@ -62,9 +59,9 @@ model.add(layers.Input(shape=[3]))
 #model.add(layers.Input(shape=(X_train.shape[1], X_train.shape[2])))
 #model.add(layers.LSTM(100)) #, input_shape=(X_train.shape[1], X_train.shape[2])))
 #model.add(layers.Dropout(0.2))
-model.add(layers.Dense(1000, activation=activation_type))
+model.add(layers.Dense(500, activation=activation_type))
+model.add(layers.Dense(100, activation=activation_type))
 model.add(layers.Dense(10, activation=activation_type))
-model.add(layers.Dense(3, activation=activation_type))
 model.add(layers.Dense(1))
 model.compile(optimizer='adam', loss='mean_squared_error',metrics=[metrics.MeanSquaredError()])
 model.summary()
